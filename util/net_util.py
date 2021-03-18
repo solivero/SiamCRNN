@@ -1,5 +1,5 @@
-import tensorflow as tf
-from tensorflow.layers import batch_normalization
+import tensorflow.compat.v1 as tf
+from tensorflow.compat.v1.layers import batch_normalization
 
 _EPSILON = 1e-7
 

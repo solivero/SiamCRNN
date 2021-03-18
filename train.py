@@ -3,9 +3,9 @@ import os
 import pickle
 import time
 
-import gdal
+#import gdal
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
 from SiamCRNN import SiamCRNN
 
