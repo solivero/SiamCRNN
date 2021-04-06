@@ -1,4 +1,4 @@
-import tensorflow.compat.v1 as tf
+import tensorflow as tf
 from util.net_util import conv_2d, max_pool_2d, avg_pool_2d, fully_connected
 
 
@@ -11,6 +11,8 @@ class SiamCRNN(object):
         net_Y = self._feature_extract_layer(inputs=Input_Y, name='Fea_Ext_',
                                             data_format=data_format,
                                             is_training=is_training, is_reuse=True)
+        print("feature_X", net_X.shape)
+        print("feature_Y", net_Y.shape)
 
         fea_1 = tf.squeeze(net_X, axis=1)
         fea_2 = tf.squeeze(net_Y, axis=1)
@@ -66,3 +68,19 @@ class SiamCRNN(object):
             logits = fully_connected(logits_0, num_outputs=1, is_training=is_training, is_bn=False)
             pred = activation(logits)
             return logits, pred
+
+if __name__ == '__main__':
+
+    tf.disable_v2_behavior()
+
+    input_shape = [None, 512, 512, 3]
+    Input_X = tf.placeholder(dtype=tf.float32, shape=input_shape,
+                                    name='Input_X')
+    Input_Y = tf.placeholder(dtype=tf.float32, shape=input_shape,
+                                    name='Input_Y')
+    is_training = tf.placeholder(dtype=tf.bool, name='is_training')
+
+    
+    net, pred = SiamCRNN().get_model(Input_X=Input_X, Input_Y=Input_Y,
+                                                                data_format='NHWC',
+                                                                is_training=True)  # (B, 2)
